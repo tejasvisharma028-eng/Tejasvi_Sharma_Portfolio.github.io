@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>My Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--red:#E50914;--red-dk:#b0060f;--bg:#0a0a0a;--s1:#141414;--s2:#1f1f1f;--s3:#2a2a2a;--txt:#e5e5e5;--muted:#808080;--white:#fff;--ya:#f5c518}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--s3);border-radius:3px}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:900;display:flex;align-items:center;justify-content:space-between;padding:0 4vw;height:64px;background:linear-gradient(to bottom,rgba(0,0,0,.85),transparent);transition:background .3s}
+nav.scrolled{background:rgba(10,10,10,.97)}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--red);letter-spacing:2px;text-decoration:none}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{color:var(--txt);text-decoration:none;font-size:.85rem;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--white)}
+.nav-cta{background:var(--red);color:#fff;padding:.45rem 1.1rem;border-radius:4px;font-size:.82rem;font-weight:700;text-decoration:none;transition:background .2s}
+.nav-cta:hover{background:var(--red-dk)}
+
+/* HERO */
+.hero{position:relative;height:100vh;min-height:560px;display:flex;align-items:flex-end;padding:0 4vw 8vh;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 70% 40%,rgba(229,9,20,.12) 0%,transparent 70%),linear-gradient(to right,rgba(10,10,10,.85) 0%,rgba(10,10,10,.3) 60%,transparent 100%),url('https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1600&q=80') center/cover no-repeat;transition:.4s}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 0%,transparent 40%)}
+.hero-content{position:relative;z-index:2;max-width:560px}
+.hero-badge{display:inline-block;background:var(--red);color:#fff;font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:.3rem .8rem;border-radius:2px;margin-bottom:1rem}
+.hero-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.5rem,8vw,6.5rem);line-height:1;letter-spacing:2px;color:var(--white)}
+.hero-title{font-size:clamp(.95rem,2vw,1.2rem);font-weight:300;color:var(--txt);margin:.8rem 0 1.5rem}
+.hero-desc{font-size:.9rem;line-height:1.7;color:#aaa;max-width:420px;margin-bottom:2rem}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-p{display:flex;align-items:center;gap:.5rem;background:var(--white);color:#000;padding:.7rem 1.6rem;border-radius:4px;font-weight:700;font-size:.95rem;cursor:pointer;border:none;transition:background .2s}
+.btn-p:hover{background:#d4d4d4}
+.btn-s{display:flex;align-items:center;gap:.5rem;background:rgba(109,109,110,.7);color:var(--white);padding:.7rem 1.6rem;border-radius:4px;font-weight:600;font-size:.95rem;cursor:pointer;border:none;backdrop-filter:blur(4px);transition:background .2s}
+.btn-s:hover{background:rgba(109,109,110,.9)}
+.hero-stats{position:absolute;bottom:8vh;right:6vw;z-index:2;display:flex;gap:2.5rem}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;color:var(--white);line-height:1}
+.stat-num em{color:var(--red);font-style:normal}
+.stat-lbl{font-size:.7rem;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-top:.2rem}
+.scroll-cue{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);z-index:5;display:flex;flex-direction:column;align-items:center;gap:.4rem}
+.scroll-cue span{font-size:.65rem;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+.scroll-line{width:1.5px;height:40px;background:var(--s3);position:relative;overflow:hidden}
+.scroll-line::after{content:'';position:absolute;top:-100%;left:0;width:100%;height:100%;background:var(--red);animation:sd 1.5s ease-in-out infinite}
+@keyframes sd{0%{top:-100%}100%{top:100%}}
+
+/* BADGE ROW */
+.badge-row{display:flex;align-items:center;gap:1rem;padding:2rem 4vw 0;overflow-x:auto;scrollbar-width:none}
+.badge-row::-webkit-scrollbar{display:none}
+.mb{flex:0 0 auto;background:var(--s2);border:1px solid var(--s3);border-radius:8px;padding:.8rem 1.4rem;display:flex;align-items:center;gap:.8rem;transition:border-color .2s}
+.mb:hover{border-color:var(--red)}
+.mb-icon{font-size:1.6rem}
+.mb-ttl{font-size:.8rem;font-weight:700;color:var(--white)}
+.mb-sub{font-size:.7rem;color:var(--muted)}
+
+/* SECTION ROW */
+.section-row{padding:2.5rem 0 .5rem}
+.row-header{display:flex;align-items:center;justify-content:space-between;padding:0 4vw;margin-bottom:1rem}
+.row-title{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:1.5px;color:var(--white)}
+.row-title em{color:var(--red);font-style:normal;margin-right:.4rem}
+.see-all{font-size:.78rem;color:var(--red);cursor:pointer;font-weight:600;opacity:0;transition:opacity .3s}
+.section-row:hover .see-all{opacity:1}
+.cards-wrap{padding:0 4vw}
+.cards-track{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:1rem}
+.cards-track::-webkit-scrollbar{display:none}
+
+/* CARD */
+.card{flex:0 0 220px;height:130px;border-radius:5px;overflow:hidden;position:relative;cursor:pointer;scroll-snap-align:start;transition:transform .35s cubic-bezier(.25,.46,.45,.94),z-index 0s .35s;z-index:1}
+.card:hover{transform:scale(1.28) translateY(-8px);z-index:50;transition:transform .35s cubic-bezier(.25,.46,.45,.94),z-index 0s 0s}
+.card-img{width:100%;height:100%;object-fit:cover;display:block;background:var(--s2)}
+.card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.92) 0%,rgba(0,0,0,.2) 55%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:.7rem;opacity:0;transition:opacity .25s}
+.card:hover .card-overlay{opacity:1}
+.card-lbl{font-size:.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--red);margin-bottom:.15rem}
+.card-nm{font-size:.82rem;font-weight:600;color:#fff;line-height:1.3}
+.card-wide{flex:0 0 340px;height:200px}
+.card-tall{flex:0 0 160px;height:200px}
+.card-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);font-size:2.8rem;transition:transform .3s}
+.card:hover .card-icon{transform:translate(-50%,-70%) scale(1.15)}
+.pct-bar{position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--s3)}
+.pct-fill{height:100%;background:var(--red);border-radius:0 2px 2px 0}
+
+/* TOP 10 */
+.top10{flex:0 0 200px;height:120px;position:relative;cursor:pointer;scroll-snap-align:start}
+.top10-num{position:absolute;left:-18px;bottom:-14px;font-family:'Bebas Neue',sans-serif;font-size:7rem;color:var(--s1);-webkit-text-stroke:2px var(--s3);line-height:1;z-index:1;user-select:none}
+.top10-img{position:absolute;right:0;top:0;width:calc(100% - 30px);height:100%;object-fit:cover;border-radius:4px;z-index:2;transition:transform .35s;background:var(--s2)}
+.top10:hover .top10-img{transform:scale(1.08)}
+
+/* SPOTLIGHT */
+.spotlight-row{display:flex;gap:2rem;padding:2.5rem 4vw;flex-wrap:wrap}
+.sp-card{flex:1 1 300px;background:var(--s1);border-radius:8px;overflow:hidden;cursor:pointer;border:1px solid var(--s2);transition:transform .3s}
+.sp-card:hover{transform:translateY(-4px)}
+.sp-img{width:100%;height:170px;object-fit:cover;background:var(--s2);display:block}
+.sp-body{padding:1.2rem 1.4rem}
+.sp-genre{font-size:.68rem;color:var(--red);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.4rem}
+.sp-title{font-size:1.1rem;font-weight:700;color:var(--white);margin-bottom:.5rem}
+.sp-meta{font-size:.78rem;color:var(--muted);margin-bottom:.7rem}
+.sp-desc{font-size:.82rem;color:#aaa;line-height:1.6}
+
+/* MODAL */
+.modal-backdrop{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(4px)}
+.modal-backdrop.open{opacity:1;pointer-events:all}
+.modal{background:var(--s1);border-radius:8px;overflow:hidden;width:100%;max-width:720px;max-height:90vh;overflow-y:auto;transform:scale(.92) translateY(20px);transition:transform .35s cubic-bezier(.25,.46,.45,.94);position:relative}
+.modal-backdrop.open .modal{transform:scale(1) translateY(0)}
+.modal-hero{height:280px;position:relative;overflow:hidden}
+.modal-hero img{width:100%;height:100%;object-fit:cover}
+.modal-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,var(--s1) 0%,transparent 60%)}
+.mhc{position:absolute;bottom:1.5rem;left:2rem;right:2rem;z-index:2}
+.modal-tag{display:inline-block;background:var(--red);color:#fff;font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:.2rem .6rem;border-radius:2px;margin-bottom:.6rem}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--white);letter-spacing:1.5px;line-height:1}
+.modal-close{position:absolute;top:1rem;right:1rem;z-index:10;width:36px;height:36px;border-radius:50%;border:2px solid rgba(255,255,255,.5);background:rgba(0,0,0,.6);color:#fff;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.modal-close:hover{background:var(--red);border-color:var(--red)}
+.modal-body{padding:1.5rem 2rem 2.5rem}
+.modal-meta{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.2rem}
+.mc{background:var(--s3);padding:.25rem .7rem;border-radius:3px;font-weight:500;font-size:.75rem}
+.modal-desc{font-size:.9rem;line-height:1.8;color:#bbb;margin-bottom:1.5rem}
+.slbl{font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.5rem}
+.tag{background:var(--s3);color:var(--txt);font-size:.75rem;padding:.3rem .75rem;border-radius:20px;font-weight:500;border:1px solid rgba(255,255,255,.06)}
+.skill-bars{display:flex;flex-direction:column;gap:.8rem;margin-bottom:1.5rem}
+.sbi{display:flex;flex-direction:column;gap:.3rem}
+.sbh{display:flex;justify-content:space-between;font-size:.8rem}
+.sbt{height:5px;background:var(--s3);border-radius:3px;overflow:hidden}
+.sbf{height:100%;background:var(--red);border-radius:3px;width:0;transition:width 1s cubic-bezier(.25,.46,.45,.94)}
+.timeline{border-left:2px solid var(--s3);padding-left:1.5rem}
+.tl-item{position:relative;margin-bottom:1.4rem}
+.tl-item::before{content:'';position:absolute;left:-1.6rem;top:.35rem;width:9px;height:9px;border-radius:50%;background:var(--red);border:2px solid var(--s1)}
+.tl-yr{font-size:.7rem;color:var(--red);font-weight:700;letter-spacing:1px}
+.tl-role{font-size:.95rem;font-weight:600;color:var(--white);margin:.1rem 0}
+.tl-place{font-size:.8rem;color:var(--muted)}
+.tl-desc{font-size:.82rem;color:#aaa;line-height:1.6;margin-top:.3rem}
+.modal-actions{display:flex;gap:.8rem;margin-top:2rem;flex-wrap:wrap}
+.mb-btn{display:flex;align-items:center;gap:.5rem;padding:.6rem 1.4rem;border-radius:4px;font-size:.85rem;font-weight:700;cursor:pointer;border:none;transition:background .2s;text-decoration:none}
+.mb-btn.primary{background:var(--white);color:#000}.mb-btn.primary:hover{background:#d4d4d4}
+.mb-btn.secondary{background:var(--s3);color:var(--white)}.mb-btn.secondary:hover{background:var(--s2)}
+
+/* FOOTER */
+footer{padding:4rem 4vw 2rem;border-top:1px solid var(--s2);margin-top:3rem}
+.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:2rem;margin-bottom:2.5rem}
+.fct{font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;font-weight:700}
+.fl{display:block;color:#888;font-size:.82rem;margin-bottom:.5rem;text-decoration:none;transition:color .2s}
+.fl:hover{color:var(--txt)}
+.fbot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;font-size:.75rem;color:var(--muted)}
+.socials{display:flex;gap:1rem}
+.soc{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--s3);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.85rem;text-decoration:none;transition:border-color .2s,color .2s}
+.soc:hover{border-color:var(--red);color:var(--red)}
+
+/* ━━━━ EDIT MODE ━━━━ */
+#edit-bar{display:none;position:fixed;top:64px;left:0;right:0;z-index:800;background:var(--ya);color:#000;text-align:center;font-size:.76rem;font-weight:700;padding:.3rem;pointer-events:none}
+body.edit-mode #edit-bar{display:block}
+body.edit-mode [data-e]{outline:1.5px dashed rgba(245,197,24,.5);border-radius:3px;cursor:text!important;min-width:20px;min-height:1em}
+body.edit-mode [data-e]:hover{outline:2px solid var(--ya)!important;background:rgba(245,197,24,.07)}
+body.edit-mode [data-e]:focus{outline:2px solid var(--ya)!important;background:rgba(245,197,24,.1)}
+.upload-ov{display:none;position:absolute;inset:0;z-index:100;align-items:center;justify-content:center;background:rgba(0,0,0,.65);border-radius:5px;flex-direction:column;gap:.4rem}
+body.edit-mode .upload-ov{display:flex}
+.upload-btn{background:var(--ya);color:#000;border:none;padding:.45rem .9rem;border-radius:6px;font-weight:700;font-size:.78rem;cursor:pointer}
+.upload-btn:hover{background:#e0b010}
+.cedit-btn{display:none;position:absolute;top:.4rem;right:.4rem;z-index:200;background:var(--ya);color:#000;border:none;padding:.2rem .45rem;border-radius:4px;font-size:.63rem;font-weight:700;cursor:pointer;white-space:nowrap}
+body.edit-mode .cedit-btn{display:block}
+#toolbar{position:fixed;bottom:2rem;right:2rem;z-index:9999;display:flex;flex-direction:column;align-items:flex-end;gap:.6rem}
+#etoggle{display:flex;align-items:center;gap:.6rem;background:var(--ya);color:#000;border:none;padding:.65rem 1.15rem;border-radius:30px;font-weight:700;font-size:.88rem;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+#etoggle.on{background:#fff}
+.ta-btn{padding:.55rem 1rem;border-radius:20px;border:none;font-weight:700;font-size:.8rem;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.4)}
+#ta-export{background:#22c55e;color:#fff}#ta-export:hover{background:#16a34a}
+#ta-save{background:var(--ya);color:#000}
+#ta-reset{background:#ef4444;color:#fff}#ta-reset:hover{background:#dc2626}
+#toolbar-actions{display:none;flex-direction:column;align-items:flex-end;gap:.45rem}
+
+/* ━━━━ EDITOR PANEL ━━━━ */
+#epanel{position:fixed;top:0;right:-440px;width:420px;max-width:94vw;height:100vh;z-index:5000;background:#181818;border-left:1px solid #2f2f2f;display:flex;flex-direction:column;transition:right .35s cubic-bezier(.25,.46,.45,.94)}
+#epanel.open{right:0}
+#eph{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.4rem;background:#141414;border-bottom:1px solid #2a2a2a;flex-shrink:0}
+#ept{font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:1px;color:var(--white)}
+#epc{background:none;border:1.5px solid #444;color:#aaa;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center}
+#epc:hover{background:var(--red);border-color:var(--red);color:#fff}
+#epb{flex:1;overflow-y:auto;padding:1.3rem}
+#epb::-webkit-scrollbar{width:4px}#epb::-webkit-scrollbar-thumb{background:#333;border-radius:2px}
+.pg{margin-bottom:1.1rem}
+.pl{display:block;font-size:.68rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem;font-weight:700}
+.pi,.pta,.psel{width:100%;background:#0f0f0f;border:1px solid #333;color:var(--txt);border-radius:5px;padding:.55rem .75rem;font-size:.83rem;font-family:'DM Sans',sans-serif;outline:none}
+.pi:focus,.pta:focus,.psel:focus{border-color:var(--ya)}
+.pta{resize:vertical;min-height:72px;line-height:1.6}
+.psel{cursor:pointer}
+.pprev{width:100%;height:90px;object-fit:cover;border-radius:5px;border:1px solid #333;display:block;margin-bottom:.4rem;background:var(--s2)}
+.pibtn{width:100%;background:#1a1a1a;border:1px dashed #3a3a3a;color:#777;border-radius:5px;padding:.45rem;font-size:.78rem;cursor:pointer}
+.pibtn:hover{border-color:var(--ya);color:var(--ya)}
+.plist{display:flex;flex-direction:column;gap:.55rem;margin-bottom:.5rem}
+.pli{background:#111;border:1px solid #2a2a2a;border-radius:6px;padding:.7rem}
+.pli .pi,.pli .pta{margin-bottom:.35rem}
+.prm{background:#2a1111;border:1px solid #5a1111;color:#ef4444;border-radius:4px;padding:.2rem .55rem;font-size:.7rem;cursor:pointer;font-weight:600}
+.padd{background:#0f2a0f;border:1px dashed #2a5a2a;color:#4ade80;border-radius:5px;padding:.38rem;font-size:.76rem;cursor:pointer;font-weight:600;width:100%}
+.padd:hover{background:#142814}
+.papply{width:100%;background:var(--ya);color:#000;border:none;border-radius:6px;padding:.65rem;font-size:.88rem;font-weight:700;cursor:pointer;margin-top:1rem}
+.papply:hover{background:#e0b010}
+.psec{font-size:.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ya);margin:1.1rem 0 .5rem;border-bottom:1px solid #2a2a2a;padding-bottom:.35rem}
+.psb{display:flex;gap:.35rem;align-items:center;margin-bottom:.35rem}
+.psb input[type=text]{flex:2;background:#0f0f0f;border:1px solid #333;color:var(--txt);border-radius:4px;padding:.38rem .55rem;font-size:.78rem;font-family:'DM Sans',sans-serif;outline:none}
+.psb input[type=number]{flex:1;background:#0f0f0f;border:1px solid #333;color:var(--txt);border-radius:4px;padding:.38rem .55rem;font-size:.78rem;font-family:'DM Sans',sans-serif;outline:none}
+.psb input:focus{border-color:var(--ya)}
+
+/* TOAST */
+#toast{position:fixed;bottom:6rem;right:2rem;z-index:9999;background:#22c55e;color:#fff;padding:.55rem 1.1rem;border-radius:8px;font-size:.83rem;font-weight:600;opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s;pointer-events:none}
+#toast.show{opacity:1;transform:translateY(0)}
+
+@media(max-width:600px){.hero-stats,.nav-links{display:none}#epanel{width:95vw}}
+</style>
+</head>
+<body>
+
+<div id="edit-bar">✏️ EDIT MODE — Click text to edit &nbsp;|&nbsp; Click 📷 on images to upload &nbsp;|&nbsp; Click ✏️ on cards to edit details</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="#" data-e contenteditable="false">PORTFOLIO</a>
+  <ul class="nav-links">
+    <li><a href="#resume">Resume</a></li><li><a href="#education">Degree</a></li>
+    <li><a href="#skills">Skills</a></li><li><a href="#projects">Projects</a></li>
+    <li><a href="#achievements">Achievements</a></li>
+  </ul>
+  <a class="nav-cta" href="mailto:you@example.com" data-e contenteditable="false">Hire Me</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg" id="hero-bg">
+    <div class="upload-ov"><button class="upload-btn" onclick="triggerUp('up-hero')">📷 Change Hero Photo</button><input type="file" id="up-hero" accept="image/*" style="display:none" onchange="upHero(this)"/></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge" data-e contenteditable="false">✦ Available for Hire</div>
+    <h1 class="hero-name">
+      <span data-e contenteditable="false" id="hn1">YOUR</span><br>
+      <span style="color:var(--red)" data-e contenteditable="false" id="hn2">NAME</span><br>
+      <span data-e contenteditable="false" id="hn3">HERE</span>
+    </h1>
+    <p class="hero-title" data-e contenteditable="false" id="htitle">Full Stack Developer &nbsp;·&nbsp; UI/UX Designer &nbsp;·&nbsp; Problem Solver</p>
+    <p class="hero-desc" data-e contenteditable="false" id="hdesc">Crafting digital experiences that blend elegant design with robust engineering. Passionate about turning complex problems into simple, beautiful solutions.</p>
+    <div class="hero-btns">
+      <button class="btn-p" onclick="openModal('resume-main')">▶ &nbsp;View Resume</button>
+      <button class="btn-s" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">ℹ &nbsp;See Projects</button>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num" data-e contenteditable="false" id="s1n">3<em>+</em></div><div class="stat-lbl" data-e contenteditable="false" id="s1l">Years Exp.</div></div>
+    <div class="stat"><div class="stat-num" data-e contenteditable="false" id="s2n">24<em>+</em></div><div class="stat-lbl" data-e contenteditable="false" id="s2l">Projects</div></div>
+    <div class="stat"><div class="stat-num" data-e contenteditable="false" id="s3n">8<em>+</em></div><div class="stat-lbl" data-e contenteditable="false" id="s3l">Certifications</div></div>
+  </div>
+  <div class="scroll-cue"><span>Scroll</span><div class="scroll-line"></div></div>
+</section>
+
+<!-- BADGE ROW -->
+<div class="badge-row">
+  <div class="mb"><div class="mb-icon">🏆</div><div><div class="mb-ttl" data-e contenteditable="false">Top Performer</div><div class="mb-sub" data-e contenteditable="false">Company Award 2024</div></div></div>
+  <div class="mb"><div class="mb-icon">🎓</div><div><div class="mb-ttl" data-e contenteditable="false">B.Tech CSE</div><div class="mb-sub" data-e contenteditable="false">GPA 9.1 / 10</div></div></div>
+  <div class="mb"><div class="mb-icon">⚡</div><div><div class="mb-ttl" data-e contenteditable="false">React Expert</div><div class="mb-sub" data-e contenteditable="false">4 yrs experience</div></div></div>
+  <div class="mb"><div class="mb-icon">🚀</div><div><div class="mb-ttl" data-e contenteditable="false">Open Source</div><div class="mb-sub" data-e contenteditable="false">450+ GitHub Stars</div></div></div>
+  <div class="mb"><div class="mb-icon">📜</div><div><div class="mb-ttl" data-e contenteditable="false">AWS Certified</div><div class="mb-sub" data-e contenteditable="false">Solutions Architect</div></div></div>
+  <div class="mb"><div class="mb-icon">🌍</div><div><div class="mb-ttl" data-e contenteditable="false">Remote Ready</div><div class="mb-sub" data-e contenteditable="false">Hyderabad, IN</div></div></div>
+</div>
+
+<!-- RESUME ROW -->
+<section class="section-row" id="resume">
+  <div class="row-header"><div class="row-title"><em>●</em> <span data-e contenteditable="false" id="rtitle">My Resume &amp; Experience</span></div><div class="see-all" onclick="openModal('resume-main')">Explore All ›</div></div>
+  <div class="cards-wrap"><div class="cards-track">
+    <div class="card card-wide" onclick="openModal('resume-main')" style="position:relative">
+      <img class="card-img" id="ci-resume-main" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&q=80" alt=""/>
+      <div class="upload-ov"><button class="upload-btn" onclick="event.stopPropagation();triggerUp('up-resume-main')">📷 Upload</button><input type="file" id="up-resume-main" accept="image/*" style="display:none" onchange="upCard(this,'ci-resume-main','resume-main')"/></div>
+      <button class="cedit-btn" onclick="event.stopPropagation();openPanel('resume-main')">✏️ Edit Card</button>
+      <div class="card-overlay"><div class="card-lbl">Experience</div><div class="card-nm">Full Profile &amp; Resume</div></div>
+    </div>
+    <div class="card" onclick="openModal('work-exp')" style="position:relative">
+      <img class="card-img" id="ci-work-exp" src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&q=80" alt=""/>
+      <div class="upload-ov"><button class="upload-btn" onclick="event.stopPropagation();triggerUp('up-work-exp')">📷 Upload</button><input type="file" id="up-work-exp" accept="image/*" style="display:none" onchange="upCard(this,'ci-work-exp','work-exp')"/></div>
+      <button class="cedit-btn" onclick="event.stopPropagation();openPanel('work-exp')">✏️ Edit Card</button>
+      <div class="card-overlay"><div class="card-lbl">Work</div><div class="card-nm">Work Experience</div></div>
+    </div>
+    <div class="card" onclick="openModal('degree-main')" style="position:relative">
+      <img class="card-img" id="ci-degree-main" src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=400&q=80" alt=""/>
+      <div class="upload-ov"><button class="upload-btn" onclick="event.stopPropagation();triggerUp('up-degree-main')">📷 Upload</button><input type="file" id="up-degree-main" accept="image/*" style="display:none" onchange="upCard(this,'ci-degree-main','degree-main')"/></div>
+      <button class="cedit-btn" onclick="event.stopPropagation();openPanel('degree-main')">✏️ Edit Card</button>
+      <div class="card-overlay"><div class="card-lbl">Degree</div><div class="card-nm">Education</div></div>
+    </div>
+    <div class="card" onclick="openModal('skills-main')" style="position:relative">
+      <img class="card-img" id="ci-skills-main" src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?w=400&q=80" alt=""/>
+      <div class="upload-ov"><button class="upload-btn" onclick="event.stopPropagation();triggerUp('up-skills-main')">📷 Upload</button><input type="file" id="up-skills-main" accept="image/*" style="display:none" onchange="upCard(this,'ci-skills-main','skills-main')"/></div>
+      <button class="cedit-btn" onclick="event.stopPropagation();openPanel('skills-main')">✏️ Edit Card</button>
+      <div class="card-overlay"><div class="card-lbl">Skills</div><div class="card-nm">Technical Skills</div></div>
+    </div>
+  </div></div>
+</section>
+
+<!-- EDUCATION ROW -->
+<section class="section-row" id="education">
+  <div class="row-header"><div class="row-title"><em>●</em> <span data-e contenteditable="false" id="etitle">Education &amp; Degrees</span></div><div class="see-all" onclick="openModal('degree-main')">Explore All ›</div></div>
+  <div class="cards-wrap"><div class="cards-track">
+    <div class="card card-wide" onclick="openModal('degree-main')" style="position:relative">
+      <img class="card-img" id="ci-edu-1" src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=500&q=80" alt=""/>
+      <div class="upload-ov"><button class="upload-btn" onclick="event.stopPropagation();triggerUp('up-edu-1')">📷 Upload</button><input type="file" id="up-edu-1" accept="image/*" style="display:none" onchange="upImg(this,'ci-edu-1')"/></div>
+      <div class="card-overlay"><div class="card-lbl">B.Tech</div><div class="card-nm">Computer Science & Engineering</div></div>
+      <div class="pct-bar"><div class="pct-fill" style="width:91%"></div></div>
+    </div>
+    <div class="card" onclick="openModal('ach-3')" style="position:relative">
+      <img class="card-img" id="ci-edu-2" src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=400&q=80" alt=""/>
+      <div class="upload-ov"><button class="upload-btn" onclick="event.stopPropagation();triggerUp('up-edu-2')">📷 Upload</button><input type="file" id="up-edu-2" accept="image/*" style="display:none" onchange="upImg(this,'ci-edu-2')"/></div>
+      <div class="card-overlay"><div class="card-lbl">AWS</div><div class="card-nm">Certifications</div></div>
+    </div>
+    <div class="card" onclick="openModal('work-exp')" style="position:relative">
+      <img class="card-img" id="ci-edu-3" src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=400&q=80" alt=""/>
+      <div class="upload-ov"><button class="upload-btn" onclick="event.stopPropagation();triggerUp('up-edu-3')">📷 Upload</button><input type="file" id="up-edu-3" accept="image/*" style="display:none" onchange="upImg(this,'ci-edu-3')"/></div>
+      <div class="card-overlay"><div class="card-lbl">Online</div><div class="card-nm">Online Courses</div></div>
+    </div>
+  </div></div>
+</section>
+
+<!-- SKILLS ROW -->
+<section class="section-row" id="skills">
+  <div class="row-header"><div class="row-title"><em>●</em> <span data-e contenteditable="false" id="sktitle">Skills &amp; Technologies</span></div><div class="see-all" onclick="openPanel('skills-main')">Edit ›</div></div>
+  <div class="cards-wrap"><div class="cards-track">
+    <div class="card card-tall" style="background:linear-gradient(135deg,#1a1a2e,#16213e);position:relative" onclick="openModal('skills-main')">
+      <div class="card-icon">⚛️</div>
+      <button class="cedit-btn" onclick="event.stopPropagation();openPanel('skills-main')">✏️ Edit</button>
+      <div class="card-overlay"><div class="card-lbl">Frontend</div><div class="card-nm" data-e contenteditable="false" id="sk-fe">React, Vue, TypeScript</div></div>
+      <div class="pct-bar"><div class="pct-fill" style="width:90%"></div></div>
+    </div>
+    <div class="card card-tall" style="background:linear-gradient(135deg,#1a2e1a,#163e16);position:relative" onclick="openModal('skills-backend')">
+      <div class="card-icon">🛠️</div>
+      <button class="cedit-btn" onclick="event.stopPropagation();openPanel('skills-backend')">✏️ Edit</button>
+      <div class="card-overlay"><div class="card-lbl">Backend</div><div class="card-nm" data-e contenteditable="false" id="sk-be">Node.js, Python, Java</div></div>
+      <div class="pct-bar"><div class="pct-fill" style="width:80%"></div></div>
+    </div>
+    <div class="card card-tall" style="background:linear-gradient(135deg,#2e1a1a,#3e1616);position:relative" onclick="openModal('skills-db')">
+      <div class="card-icon">🗄️</div>
+      <button class="cedit-btn" onclick="event.stopPropagation();openPanel('skills-db')">✏️ Edit</button>
+      <div class="card-overlay"><div class="card-lbl">Database</div><div class="card-nm" data-e contenteditable="false" id="sk-db">PostgreSQL, MongoDB</div></div>
+      <div class="pct-bar"><div class="pct-fill" style="width:75%"></div></div>
+    </div>
+    <div class="card card-tall" style="background:linear-gradient(135deg,#1a1e2e,#161a3e);position:relative" onclick="openModal('skills-devops')">
+      <div class="card-icon">☁️</div>
+      <button class="cedit-btn" onclick="event.stopPropagation();openPanel('skills-devops')">✏️ Edit</button>
+      <div class="card-overlay"><div class="card-lbl">DevOps</div><div class="card-nm" data-e contenteditable="false" id="sk-do">AWS, Docker, K8s</div></div>
+      <div class="pct-bar"><div class="pct-fill" style="width:70%"></div></div>
+    </div>
+    <div class="card card-tall" style="background:linear-gradient(135deg,#2e1a2e,#3e163e);position:relative" onclick="openModal('skills-design')">
+      <div class="card-icon">🎨</div>
+      <button class="cedit-btn" onclick="event.stopPropagation();openPanel('skills-design')">✏️ Edit</button>
+      <div class="card-overlay"><div class="card-lbl">Design</div><div class="card-nm" data-e contenteditable="false" id="sk-ds">Figma, Tailwind, GSAP</div></div>
+      <div class="pct-bar"><div class="pct-fill" style="width:85%"></div></div>
+    </div>
+    <div class="card card-tall" style="background:linear-gradient(135deg,#2e2a1a,#3e3616);position:relative" onclick="openModal('skills-ai')">
+      <div class="card-icon">🤖</div>
+      <button class="cedit-btn" onclick="event.stopPropagation();openPanel('skills-ai')">✏️ Edit</button>
+      <div class="card-overlay"><div class="card-lbl">AI / ML</div><div class="card-nm" data-e contenteditable="false" id="sk-ai">TensorFlow, PyTorch</div></div>
+      <div class="pct-bar"><div class="pct-fill" style="width:60%"></div></div>
+    </div>
+  </div></div>
+</section>
+
+<!-- TOP 10 PROJECTS -->
+<section class="section-row" id="projects">
+  <div class="row-header"><div class="row-title"><em>●</em> <span data-e contenteditable="false" id="ptitle">Top Projects</span></div><div class="see-all">View All ›</div></div>
+  <div class="cards-wrap"><div class="cards-track" style="padding-left:2.5rem">
+    <div class="top10" onclick="openModal('proj-1')" style="position:relative">
+      <div class="top10-num">1</div><img class="top10-img" id="ci-p1" src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&q=80" alt=""/>
+      <div class="upload-ov" style="left:30px"><button class="upload-btn" onclick="event.stopPropagation();triggerUp('up-p1')">📷</button><input type="file" id="up-p1" accept="image/*" style="display:none" onchange="upCard(this,'ci-p1','proj-1')"/></div>
+      <button class="cedit-btn" style="right:5px;top:5px" onclick="event.stopPropagation();openPanel('proj-1')">✏️</button>
+    </div>
+    <div class="top10" onclick="openModal('proj-2')" style="position:relative;margin-left:2.5rem">
+      <div class="top10-num">2</div><img class="top10-img" id="ci-p2" src="https://images.unsplash.com/photo-1611746872915-64382b5c76da?w=400&q=80" alt=""/>
+      <div class="upload-ov" style="left:30px"><button class="upload-btn" onclick="event.stopPropagation();triggerUp('up-p2')">📷</button><input type="file" id="up-p2" accept="image/*" style="display:none" onchange="upCard(this,'ci-p2','proj-2')"/></div>
+      <button class="cedit-btn" style="right:5px;top:5px" onclick="event.stopPropagation();openPanel('proj-2')">✏️</button>
+    </div>
+    <div class="top10" onclick="openModal('proj-3')" style="position:relative;margin-left:2.5rem">
+      <div class="top10-num">3</div><img class="top10-img" id="ci-p3" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&q=80" alt=""/>
+      <div class="upload-ov" style="left:30px"><button class="upload-btn" onclick="event.stopPropagation();triggerUp('up-p3')">📷</button><input type="file" id="up-p3" accept="image/*" style="display:none" onchange="upCard(this,'ci-p3','proj-3')"/></div>
+      <button class="cedit-btn" style="right:5px;top:5px" onclick="event.stopPropagation();openPanel('proj-3')">✏️</button>
+    </div>
+    <div class="top10" onclick="openModal('proj-4')" style="position:relative;margin-left:2.5rem">
+      <div class="top10-num">4</div><img class="top10-img" id="ci-p4" src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&q=80" alt=""/>
+      <div class="upload-ov" style="left:30px"><button class="upload-btn" onclick="event.stopPropagation();triggerUp('up-p4')">📷</button><input type="file" id="up-p4" accept="image/*" style="display:none" onchange="upCard(this,'ci-p4','proj-4')"/></div>
+      <button class="cedit-btn" style="right:5px;top:5px" onclick="event.stopPropagation();openPanel('proj-4')">✏️</button>
+    </div>
+    <div class="top10" onclick="openModal('proj-5')" style="position:relative;margin-left:2.5rem">
+      <div class="top10-num">5</div><img class="top10-img" id="ci-p5" src="https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=400&q=80" alt=""/>
+      <div class="upload-ov" style="left:30px"><button class="upload-btn" onclick="event.stopPropagation();triggerUp('up-p5')">📷</button><input type="file" id="up-p5" accept="image/*" style="display:none" onchange="upCard(this,'ci-p5','proj-5')"/></div>
+      <button class="cedit-btn" style="right:5px;top:5px" onclick="event.stopPropagation();openPanel('proj-5')">✏️</button>
+    </div>
+  </div></div>
+</section>
+
+<!-- SPOTLIGHT -->
+<div class="spotlight-row">
+  <div class="sp-card" onclick="openModal('proj-1')" style="position:relative">
+    <img class="sp-img" id="ci-sp1" src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=700&q=80" alt=""/>
+    <div class="upload-ov"><button class="upload-btn" onclick="event.stopPropagation();triggerUp('up-sp1')">📷 Upload Image</button><input type="file" id="up-sp1" accept="image/*" style="display:none" onchange="upImg(this,'ci-sp1')"/></div>
+    <div class="sp-body"><div class="sp-genre" data-e contenteditable="false" id="sp1g">Full Stack · 2024</div><div class="sp-title" data-e contenteditable="false" id="sp1t">ShopFlow — E-Commerce</div><div class="sp-meta" data-e contenteditable="false" id="sp1m">React · Node.js · PostgreSQL</div><div class="sp-desc" data-e contenteditable="false" id="sp1d">A full-featured e-commerce platform with payment gateway and admin dashboard.</div></div>
+  </div>
+  <div class="sp-card" onclick="openModal('proj-2')" style="position:relative">
+    <img class="sp-img" id="ci-sp2" src="https://images.unsplash.com/photo-1611746872915-64382b5c76da?w=700&q=80" alt=""/>
+    <div class="upload-ov"><button class="upload-btn" onclick="event.stopPropagation();triggerUp('up-sp2')">📷 Upload Image</button><input type="file" id="up-sp2" accept="image/*" style="display:none" onchange="upImg(this,'ci-sp2')"/></div>
+    <div class="sp-body"><div class="sp-genre" data-e contenteditable="false" id="sp2g">Real-Time · 2024</div><div class="sp-title" data-e contenteditable="false" id="sp2t">NexTalk — Chat App</div><div class="sp-meta" data-e contenteditable="false" id="sp2m">Socket.io · React · MongoDB</div><div class="sp-desc" data-e contenteditable="false" id="sp2d">End-to-end encrypted chat with group rooms and file sharing.</div></div>
+  </div>
+  <div class="sp-card" onclick="openModal('proj-3')" style="position:relative">
+    <img class="sp-img" id="ci-sp3" src="https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=700&q=80" alt=""/>
+    <div class="upload-ov"><button class="upload-btn" onclick="event.stopPropagation();triggerUp('up-sp3')">📷 Upload Image</button><input type="file" id="up-sp3" accept="image/*" style="display:none" onchange="upImg(this,'ci-sp3')"/></div>
+    <div class="sp-body"><div class="sp-genre" data-e contenteditable="false" id="sp3g">AI / ML · 2025</div><div class="sp-title" data-e contenteditable="false" id="sp3t">VisionAI — Image SaaS</div><div class="sp-meta" data-e contenteditable="false" id="sp3m">Python · PyTorch · FastAPI</div><div class="sp-desc" data-e contenteditable="false" id="sp3d">Real-time object detection using custom-trained vision models.</div></div>
+  </div>
+</div>
+
+<!-- ACHIEVEMENTS -->
+<section class="section-row" id="achievements">
+  <div class="row-header"><div class="row-title"><em>●</em> <span data-e contenteditable="false" id="achtitle">Achievements &amp; Awards</span></div><div class="see-all" onclick="openModal('achievements')">Explore All ›</div></div>
+  <div class="cards-wrap"><div class="cards-track">
+    <div class="card card-wide" onclick="openModal('achievements')" style="position:relative">
+      <img class="card-img" id="ci-ach0" src="https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?w=500&q=80" alt=""/>
+      <div class="upload-ov"><button class="upload-btn" onclick="event.stopPropagation();triggerUp('up-ach0')">📷 Upload</button><input type="file" id="up-ach0" accept="image/*" style="display:none" onchange="upCard(this,'ci-ach0','achievements')"/></div>
+      <button class="cedit-btn" onclick="event.stopPropagation();openPanel('achievements')">✏️ Edit</button>
+      <div class="card-overlay"><div class="card-lbl">🏆 Awards</div><div class="card-nm">All Achievements</div></div>
+    </div>
+    <div class="card" onclick="openModal('ach-1')" style="position:relative">
+      <img class="card-img" id="ci-ach1" src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=400&q=80" alt=""/>
+      <div class="upload-ov"><button class="upload-btn" onclick="event.stopPropagation();triggerUp('up-ach1')">📷 Upload</button><input type="file" id="up-ach1" accept="image/*" style="display:none" onchange="upCard(this,'ci-ach1','ach-1')"/></div>
+      <button class="cedit-btn" onclick="event.stopPropagation();openPanel('ach-1')">✏️ Edit</button>
+      <div class="card-overlay"><div class="card-lbl">🥇 Winner</div><div class="card-nm" data-e contenteditable="false" id="a1n">National Hackathon 2024</div></div>
+    </div>
+    <div class="card" onclick="openModal('ach-2')" style="position:relative">
+      <img class="card-img" id="ci-ach2" src="https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=400&q=80" alt=""/>
+      <div class="upload-ov"><button class="upload-btn" onclick="event.stopPropagation();triggerUp('up-ach2')">📷 Upload</button><input type="file" id="up-ach2" accept="image/*" style="display:none" onchange="upCard(this,'ci-ach2','ach-2')"/></div>
+      <button class="cedit-btn" onclick="event.stopPropagation();openPanel('ach-2')">✏️ Edit</button>
+      <div class="card-overlay"><div class="card-lbl">⭐ Open Source</div><div class="card-nm" data-e contenteditable="false" id="a2n">450+ GitHub Stars</div></div>
+    </div>
+    <div class="card" onclick="openModal('ach-3')" style="position:relative">
+      <img class="card-img" id="ci-ach3" src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=400&q=80" alt=""/>
+      <div class="upload-ov"><button class="upload-btn" onclick="event.stopPropagation();triggerUp('up-ach3')">📷 Upload</button><input type="file" id="up-ach3" accept="image/*" style="display:none" onchange="upCard(this,'ci-ach3','ach-3')"/></div>
+      <button class="cedit-btn" onclick="event.stopPropagation();openPanel('ach-3')">✏️ Edit</button>
+      <div class="card-overlay"><div class="card-lbl">📜 Certified</div><div class="card-nm" data-e contenteditable="false" id="a3n">AWS Solutions Architect</div></div>
+    </div>
+  </div></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="fg">
+    <div><div class="fct">Navigate</div><a class="fl" href="#home">Home</a><a class="fl" href="#resume">Resume</a><a class="fl" href="#skills">Skills</a><a class="fl" href="#projects">Projects</a><a class="fl" href="#achievements">Achievements</a></div>
+    <div><div class="fct">Contact</div><a class="fl" data-e contenteditable="false" id="f-email" href="#">you@example.com</a><a class="fl" data-e contenteditable="false" id="f-phone" href="#">+91 99999 99999</a><a class="fl" data-e contenteditable="false" id="f-loc" href="#">Hyderabad, India</a></div>
+    <div><div class="fct">Links</div><a class="fl" data-e contenteditable="false" id="f-gh" href="https://github.com/" target="_blank">GitHub</a><a class="fl" data-e contenteditable="false" id="f-li" href="https://linkedin.com/" target="_blank">LinkedIn</a><a class="fl" data-e contenteditable="false" id="f-lc" href="https://leetcode.com/" target="_blank">LeetCode</a></div>
+  </div>
+  <div class="fbot"><span data-e contenteditable="false" id="f-copy">© 2025 Your Name. Netflix Inspired Portfolio</span><div class="socials"><a class="soc" href="https://github.com/" target="_blank">GH</a><a class="soc" href="https://linkedin.com/" target="_blank">LI</a><a class="soc" href="https://twitter.com/" target="_blank">TW</a></div></div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-backdrop" id="modal-backdrop" onclick="closeMBg(event)">
+  <div class="modal" id="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<!-- EDITOR PANEL -->
+<div id="epanel">
+  <div id="eph"><div id="ept">Edit Card</div><button id="epc" onclick="closePanel()">✕</button></div>
+  <div id="epb"></div>
+</div>
+
+<!-- TOOLBAR -->
+<div id="toolbar">
+  <div id="toolbar-actions">
+    <button class="ta-btn" id="ta-export" onclick="exportHTML()">💾 Export HTML</button>
+    <button class="ta-btn" id="ta-save" onclick="saveAll()">✅ Save Changes</button>
+    <button class="ta-btn" id="ta-reset" onclick="confirmReset()">🗑 Reset All</button>
+  </div>
+  <button id="etoggle" onclick="toggleEdit()">✏️ Edit Mode</button>
+</div>
+<div id="toast">Saved!</div>
+
+<script>
+/* ────────────────────────────────────
+   MODAL DATA
+──────────────────────────────────── */
+let MD = {
+'resume-main':{img:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&q=80',tag:'Full Profile',title:'Your Name',meta:['Available Now','3+ Years Exp','Full Stack'],desc:'A passionate Full Stack Developer based in Hyderabad, India. I specialize in building scalable web applications with modern frameworks and cloud infrastructure.',timeline:[{yr:'2023–Present',role:'Senior Software Engineer',place:'TechCorp Pvt Ltd · Hyderabad',desc:'Leading frontend architecture and mentoring a team of 5 engineers.'},{yr:'2022–2023',role:'Software Developer',place:'StartupX · Remote',desc:'Built REST APIs and improved performance by 40%.'},{yr:'2021–2022',role:'Junior Developer',place:'Infosys · Hyderabad',desc:'Enterprise Java applications and React dashboards.'}],tags:[],skillBars:[],buttons:[{label:'▶ Download CV',type:'primary',href:'#'},{label:'✉ Contact Me',type:'secondary',href:'mailto:you@example.com'}]},
+'work-exp':{img:'https://images.unsplash.com/photo-1497366216548-37526070297c?w=900&q=80',tag:'Work Experience',title:'Career Journey',meta:['3 Companies','3+ Years','Full-Time'],desc:'My professional journey spans startups, enterprise firms, and remote-first teams.',timeline:[{yr:'2023–Present',role:'Senior Software Engineer — TechCorp',place:'Hyderabad',desc:'Micro-frontend systems, CI/CD pipelines, leadership.'},{yr:'2022–2023',role:'Software Developer — StartupX',place:'Remote',desc:'Full-stack with Node.js, React, AWS.'},{yr:'2021–2022',role:'Junior Developer — Infosys',place:'Hyderabad',desc:'Java Spring Boot and React dashboards.'}],tags:[],skillBars:[],buttons:[{label:'▶ Download CV',type:'primary',href:'#'}]},
+'degree-main':{img:'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=900&q=80',tag:'Education',title:'B.Tech Computer Science',meta:['2018–2022','GPA 9.1/10','JNTUH'],desc:'Graduated with distinction in CSE. Coursework: Data Structures, OS, DBMS, ML, Cloud Computing.',timeline:[],tags:['Data Structures','Operating Systems','DBMS','Computer Networks','Machine Learning','Cloud Computing','Web Technologies'],skillBars:[{name:'Overall GPA',pct:91},{name:'Core CS Subjects',pct:95},{name:'Project Work',pct:100}],buttons:[{label:'▶ View Certificate',type:'primary',href:'#'}]},
+'skills-main':{img:'https://images.unsplash.com/photo-1555099962-4199c345e5dd?w=900&q=80',tag:'Technical Skills',title:'Skills & Tech Stack',meta:['20+ Technologies','6 Domains','Production-Ready'],desc:'My skill set spans the full development lifecycle.',timeline:[],tags:['React','Next.js','TypeScript','Node.js','Python','Java','PostgreSQL','MongoDB','Redis','AWS','Docker','Kubernetes','Git','Figma','TailwindCSS'],skillBars:[{name:'React / Next.js',pct:90},{name:'Node.js / Express',pct:85},{name:'Python',pct:80},{name:'AWS / Cloud',pct:70},{name:'Machine Learning',pct:60}],buttons:[{label:'▶ Download Resume',type:'primary',href:'#'}]},
+'skills-backend':{img:'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=900&q=80',tag:'Backend',title:'Backend Development',meta:['85% Proficiency','3 Years'],desc:'Scalable, secure APIs using Node.js, Python, and Java.',timeline:[],tags:['Node.js','Express','Python','FastAPI','Java','Spring Boot','GraphQL'],skillBars:[{name:'Node.js / Express',pct:90},{name:'Python / FastAPI',pct:80},{name:'Java / Spring Boot',pct:70}],buttons:[{label:'▶ See Projects',type:'primary',href:'#projects'}]},
+'skills-db':{img:'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=900&q=80',tag:'Databases',title:'Database Engineering',meta:['75% Proficiency','3 Years'],desc:'SQL and NoSQL databases, query optimization, and data modeling.',timeline:[],tags:['PostgreSQL','MySQL','MongoDB','Redis','Firebase','Supabase'],skillBars:[{name:'PostgreSQL',pct:85},{name:'MongoDB',pct:80},{name:'Redis',pct:70}],buttons:[{label:'▶ See Projects',type:'primary',href:'#projects'}]},
+'skills-devops':{img:'https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=900&q=80',tag:'DevOps',title:'Cloud & DevOps',meta:['70% Proficiency','AWS Certified'],desc:'Cloud infrastructure, containerization, CI/CD pipelines.',timeline:[],tags:['AWS','Docker','Kubernetes','GitHub Actions','Nginx','Terraform'],skillBars:[{name:'AWS',pct:75},{name:'Docker',pct:80},{name:'CI/CD',pct:70}],buttons:[{label:'▶ View Certificate',type:'primary',href:'#'}]},
+'skills-design':{img:'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=900&q=80',tag:'Design',title:'UI/UX Design',meta:['85% Proficiency','Figma Expert'],desc:'Pixel-perfect, accessible designs with strong UX intuition.',timeline:[],tags:['Figma','TailwindCSS','GSAP','Framer Motion','CSS Animations'],skillBars:[{name:'Figma',pct:90},{name:'TailwindCSS',pct:95},{name:'GSAP',pct:80}],buttons:[{label:'▶ See Projects',type:'primary',href:'#projects'}]},
+'skills-ai':{img:'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=900&q=80',tag:'AI / ML',title:'Machine Learning & AI',meta:['60% Proficiency','Growing Fast'],desc:'Building and deploying ML models for classification, NLP, and computer vision.',timeline:[],tags:['Python','TensorFlow','PyTorch','scikit-learn','OpenCV','Pandas'],skillBars:[{name:'Python / Data',pct:85},{name:'TensorFlow',pct:65},{name:'PyTorch',pct:60}],buttons:[{label:'▶ See Projects',type:'primary',href:'#projects'}]},
+'proj-1':{img:'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=900&q=80',tag:'Project · Full Stack',title:'Project One',meta:['2024','Full Stack','Live'],desc:'Describe your first project. Click ✏️ Edit Card to customize all details.',timeline:[],tags:['React','Node.js','PostgreSQL','Stripe','Docker'],skillBars:[],buttons:[{label:'▶ Live Demo',type:'primary',href:'#'},{label:'⌥ GitHub',type:'secondary',href:'https://github.com/'}]},
+'proj-2':{img:'https://images.unsplash.com/photo-1611746872915-64382b5c76da?w=900&q=80',tag:'Project · Real-Time',title:'Project Two',meta:['2024','Real-Time','Open Source'],desc:'Describe your second project here.',timeline:[],tags:['React','Socket.io','MongoDB','Redis'],skillBars:[],buttons:[{label:'▶ Live Demo',type:'primary',href:'#'},{label:'⌥ GitHub',type:'secondary',href:'https://github.com/'}]},
+'proj-3':{img:'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&q=80',tag:'Project · Dashboard',title:'Project Three',meta:['2024','Dashboard'],desc:'Describe your third project here.',timeline:[],tags:['React','D3.js','PostgreSQL'],skillBars:[],buttons:[{label:'▶ Live Demo',type:'primary',href:'#'},{label:'⌥ GitHub',type:'secondary',href:'https://github.com/'}]},
+'proj-4':{img:'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=900&q=80',tag:'Project · Mobile',title:'Project Four',meta:['2023','Mobile'],desc:'Describe your fourth project here.',timeline:[],tags:['React Native','Firebase'],skillBars:[],buttons:[{label:'▶ Live Demo',type:'primary',href:'#'},{label:'⌥ GitHub',type:'secondary',href:'https://github.com/'}]},
+'proj-5':{img:'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=900&q=80',tag:'Project · AI',title:'Project Five',meta:['2025','AI / ML'],desc:'Describe your fifth project here.',timeline:[],tags:['Python','PyTorch','FastAPI'],skillBars:[],buttons:[{label:'▶ Live Demo',type:'primary',href:'#'},{label:'⌥ GitHub',type:'secondary',href:'https://github.com/'}]},
+'achievements':{img:'https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?w=900&q=80',tag:'Achievements',title:'Awards & Achievements',meta:['8 Awards','2019–2025'],desc:'Academic, technical, and professional achievements.',timeline:[{yr:'2024',role:'🥇 National Hackathon Winner',place:'',desc:'1st place among 500+ teams.'},{yr:'2024',role:'📜 AWS Certified',place:'',desc:'Score 890/1000.'},{yr:'2023',role:'⭐ 450+ GitHub Stars',place:'',desc:'Open-sourced a React library.'},{yr:'2022',role:'📄 IEEE Paper Published',place:'',desc:'NLP research paper.'},{yr:'2022',role:'🎓 Gold Medalist',place:'',desc:'GPA 9.1/10, department topper.'}],tags:[],skillBars:[],buttons:[{label:'▶ LinkedIn Profile',type:'primary',href:'https://linkedin.com/'}]},
+'ach-1':{img:'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=900&q=80',tag:'🥇 Winner',title:'National Hackathon 2024',meta:['1st Place','500+ Teams'],desc:'Won first place building an AI-powered traffic optimization system.',timeline:[],tags:['Computer Vision','Python','TensorFlow'],skillBars:[],buttons:[{label:'▶ View Certificate',type:'primary',href:'#'}]},
+'ach-2':{img:'https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=900&q=80',tag:'⭐ Open Source',title:'450+ GitHub Stars',meta:['2023','450 Stars'],desc:'Open-sourced a React component library with 450+ stars.',timeline:[],tags:['React','TypeScript','npm'],skillBars:[],buttons:[{label:'▶ View on GitHub',type:'primary',href:'https://github.com/'}]},
+'ach-3':{img:'https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=900&q=80',tag:'📜 Certified',title:'AWS Solutions Architect',meta:['2024','Score 890/1000'],desc:'Earned the AWS SAA-C03 certification with a score of 890/1000.',timeline:[],tags:['AWS','Cloud','EC2','S3','Lambda'],skillBars:[{name:'Exam Score',pct:89}],buttons:[{label:'▶ Verify Certificate',type:'primary',href:'#'}]},
+};
+
+const IMG_STORE={};
+
+/* ────────────────────────────────────
+   LOAD SAVED DATA
+──────────────────────────────────── */
+function loadSaved(){
+  try{
+    const m=localStorage.getItem('pf_modals');
+    if(m) MD=Object.assign({},MD,JSON.parse(m));
+    const t=localStorage.getItem('pf_texts');
+    if(t){const o=JSON.parse(t);Object.keys(o).forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=o[id];});}
+    const i=localStorage.getItem('pf_imgs');
+    if(i){const o=JSON.parse(i);Object.keys(o).forEach(id=>{IMG_STORE[id]=o[id];applyImg(id,o[id]);});}
+  }catch(e){}
+}
+function applyImg(id,src){
+  const el=document.getElementById(id);
+  if(!el)return;
+  if(id==='hero-bg'){el.style.backgroundImage=`radial-gradient(ellipse 80% 60% at 70% 40%,rgba(229,9,20,.12) 0%,transparent 70%),linear-gradient(to right,rgba(10,10,10,.85),rgba(10,10,10,.3) 60%,transparent 100%),url('${src}')`;}
+  else if(el.tagName==='IMG')el.src=src;
+}
+
+/* ────────────────────────────────────
+   MODAL
+──────────────────────────────────── */
+function openModal(id){
+  const d=MD[id];if(!d)return;
+  const chips=(d.meta||[]).map(m=>`<div class="mc">${m}</div>`).join('');
+  let ex='';
+  if(d.skillBars&&d.skillBars.length) ex+=`<div class="slbl">Proficiency</div><div class="skill-bars">${d.skillBars.map(s=>`<div class="sbi"><div class="sbh"><span>${s.name}</span><span>${s.pct}%</span></div><div class="sbt"><div class="sbf" data-w="${s.pct}"></div></div></div>`).join('')}</div>`;
+  if(d.tags&&d.tags.length) ex+=`<div class="slbl" style="margin-top:.5rem">Tags / Technologies</div><div class="tags">${d.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>`;
+  if(d.timeline&&d.timeline.length) ex+=`<div class="slbl" style="margin-top:.5rem">Timeline</div><div class="timeline">${d.timeline.map(t=>`<div class="tl-item"><div class="tl-yr">${t.yr}</div><div class="tl-role">${t.role}</div>${t.place?`<div class="tl-place">${t.place}</div>`:''}<div class="tl-desc">${t.desc}</div></div>`).join('')}</div>`;
+  const btns=(d.buttons||[]).map(b=>`<a href="${b.href}" class="mb-btn ${b.type}" ${b.href.startsWith('http')?'target="_blank"':''}>${b.label}</a>`).join('');
+  document.getElementById('modal-content').innerHTML=`<div class="modal-hero"><img src="${d.img}" alt=""/><div class="mhc"><div class="modal-tag">${d.tag}</div><div class="modal-title">${d.title}</div></div></div><div class="modal-body"><div class="modal-meta">${chips}</div><div class="modal-desc">${d.desc}</div>${ex}<div class="modal-actions">${btns}</div></div>`;
+  document.getElementById('modal-backdrop').classList.add('open');
+  document.body.style.overflow='hidden';
+  setTimeout(()=>document.querySelectorAll('.sbf').forEach(el=>el.style.width=(el.dataset.w||0)+'%'),100);
+}
+function closeModal(){document.getElementById('modal-backdrop').classList.remove('open');document.body.style.overflow='';}
+function closeMBg(e){if(e.target===document.getElementById('modal-backdrop'))closeModal();}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closePanel();}});
+
+/* ────────────────────────────────────
+   EDIT MODE
+──────────────────────────────────── */
+let editOn=false;
+function toggleEdit(){
+  editOn=!editOn;
+  document.body.classList.toggle('edit-mode',editOn);
+  const btn=document.getElementById('etoggle');
+  btn.textContent=editOn?'✕ Exit Edit Mode':'✏️ Edit Mode';
+  btn.classList.toggle('on',editOn);
+  document.getElementById('toolbar-actions').style.display=editOn?'flex':'none';
+  document.querySelectorAll('[data-e]').forEach(el=>el.contentEditable=editOn?'true':'false');
+  if(!editOn)saveAll();
+}
+
+/* ────────────────────────────────────
+   IMAGE UPLOAD
+──────────────────────────────────── */
+function triggerUp(id){if(!editOn){toast('Enable Edit Mode first!');return;}document.getElementById(id)?.click();}
+function upImg(input,targetId){
+  const f=input.files[0];if(!f)return;
+  const r=new FileReader();r.onload=e=>{IMG_STORE[targetId]=e.target.result;applyImg(targetId,e.target.result);toast('Image uploaded! Save or Export when done.');};r.readAsDataURL(f);
+}
+function upCard(input,imgId,modalId){
+  const f=input.files[0];if(!f)return;
+  const r=new FileReader();r.onload=e=>{const src=e.target.result;IMG_STORE[imgId]=src;applyImg(imgId,src);MD[modalId].img=src;toast('Image uploaded!');};r.readAsDataURL(f);
+}
+function upHero(input){
+  const f=input.files[0];if(!f)return;
+  const r=new FileReader();r.onload=e=>{const src=e.target.result;IMG_STORE['hero-bg']=src;applyImg('hero-bg',src);toast('Hero image updated!');};r.readAsDataURL(f);
+}
+
+/* ────────────────────────────────────
+   EDITOR PANEL
+──────────────────────────────────── */
+let curPanelId=null;
+function openPanel(id){
+  if(!editOn){toast('Enable Edit Mode first!');return;}
+  curPanelId=id;const d=MD[id];if(!d)return;
+  document.getElementById('ept').textContent='Edit: '+d.title;
+  buildPanelForm(id,d);
+  document.getElementById('epanel').classList.add('open');
+}
+function closePanel(){document.getElementById('epanel').classList.remove('open');curPanelId=null;}
+
+function buildPanelForm(id,d){
+  const imgSrc=IMG_STORE[`ci-${id}`]||d.img;
+  let h=`<div class="psec">🖼 Image</div>
+  <div class="pg"><img class="pprev" id="pp-${id}" src="${imgSrc}" alt=""/>
+  <button class="pibtn" onclick="document.getElementById('pup-${id}').click()">📷 Upload from computer</button>
+  <input type="file" id="pup-${id}" accept="image/*" style="display:none" onchange="panelUpImg(this,'${id}')"/>
+  <label class="pl" style="margin-top:.5rem">Or paste image URL</label>
+  <input class="pi" id="purl-${id}" value="${imgSrc}" oninput="document.getElementById('pp-${id}').src=this.value"/></div>
+  <div class="psec">📝 Info</div>
+  <div class="pg"><label class="pl">Tag</label><input class="pi" id="ptag-${id}" value="${esc(d.tag)}"/></div>
+  <div class="pg"><label class="pl">Title</label><input class="pi" id="ptit-${id}" value="${esc(d.title)}"/></div>
+  <div class="pg"><label class="pl">Description</label><textarea class="pta" id="pdesc-${id}">${esc(d.desc)}</textarea></div>
+  <div class="pg"><label class="pl">Meta Chips (one per line)</label><textarea class="pta" style="min-height:55px" id="pmeta-${id}">${(d.meta||[]).join('\n')}</textarea></div>
+  <div class="psec">🏷 Tags</div>
+  <div class="pg"><label class="pl">Comma separated</label><input class="pi" id="ptags-${id}" value="${(d.tags||[]).join(', ')}"/></div>
+  <div class="psec">📊 Skill Bars</div>
+  <div id="sblist-${id}">`;
+  (d.skillBars||[]).forEach((s,i)=>{h+=`<div class="psb"><input type="text" id="sbn-${id}-${i}" value="${esc(s.name)}" placeholder="Skill"/><input type="number" id="sbp-${id}-${i}" value="${s.pct}" min="0" max="100"/><button class="prm" onclick="delSB('${id}',${i})">✕</button></div>`;});
+  h+=`</div><button class="padd" onclick="addSB('${id}')">+ Add Skill Bar</button>
+  <div class="psec">📅 Timeline</div>
+  <div id="tllist-${id}" class="plist">`;
+  (d.timeline||[]).forEach((t,i)=>{h+=`<div class="pli"><input class="pi" id="tlyr-${id}-${i}" value="${esc(t.yr)}" placeholder="Year"/><input class="pi" id="tlro-${id}-${i}" value="${esc(t.role)}" placeholder="Role"/><input class="pi" id="tlpl-${id}-${i}" value="${esc(t.place||'')}" placeholder="Company"/><textarea class="pta" style="min-height:45px" id="tlde-${id}-${i}" placeholder="Description">${esc(t.desc)}</textarea><button class="prm" onclick="delTL('${id}',${i})">✕ Remove</button></div>`;});
+  h+=`</div><button class="padd" onclick="addTL('${id}')">+ Add Timeline Entry</button>
+  <div class="psec">🔗 Buttons</div>
+  <div id="btnlist-${id}" class="plist">`;
+  (d.buttons||[]).forEach((b,i)=>{h+=`<div class="pli"><input class="pi" id="blbl-${id}-${i}" value="${esc(b.label)}" placeholder="Label"/><input class="pi" id="bhrf-${id}-${i}" value="${esc(b.href)}" placeholder="URL"/><select class="psel" id="btyp-${id}-${i}"><option value="primary"${b.type==='primary'?' selected':''}>Primary</option><option value="secondary"${b.type==='secondary'?' selected':''}>Secondary</option></select><button class="prm" onclick="delBtn('${id}',${i})">✕</button></div>`;});
+  h+=`</div><button class="padd" onclick="addBtn('${id}')">+ Add Button</button>
+  <button class="papply" onclick="applyPanel('${id}')">✅ Apply Changes</button>`;
+  document.getElementById('epb').innerHTML=h;
+}
+
+function panelUpImg(input,id){
+  const f=input.files[0];if(!f)return;
+  const r=new FileReader();r.onload=e=>{const src=e.target.result;const pp=document.getElementById(`pp-${id}`);if(pp)pp.src=src;const pu=document.getElementById(`purl-${id}`);if(pu)pu.value=src;IMG_STORE[`ci-${id}`]=src;const ci=document.getElementById(`ci-${id}`);if(ci)ci.src=src;};r.readAsDataURL(f);
+}
+function addSB(id){MD[id].skillBars.push({name:'Skill',pct:50});buildPanelForm(id,MD[id]);}
+function delSB(id,i){MD[id].skillBars.splice(i,1);buildPanelForm(id,MD[id]);}
+function addTL(id){MD[id].timeline.push({yr:'',role:'',place:'',desc:''});buildPanelForm(id,MD[id]);}
+function delTL(id,i){MD[id].timeline.splice(i,1);buildPanelForm(id,MD[id]);}
+function addBtn(id){MD[id].buttons.push({label:'Button',type:'primary',href:'#'});buildPanelForm(id,MD[id]);}
+function delBtn(id,i){MD[id].buttons.splice(i,1);buildPanelForm(id,MD[id]);}
+
+function applyPanel(id){
+  const d=MD[id];
+  const url=document.getElementById(`purl-${id}`)?.value;
+  if(url){d.img=url;const ci=document.getElementById(`ci-${id}`);if(ci)ci.src=url;}
+  d.tag=v(`ptag-${id}`)||d.tag;
+  d.title=v(`ptit-${id}`)||d.title;
+  d.desc=v(`pdesc-${id}`)||d.desc;
+  d.meta=(v(`pmeta-${id}`)||'').split('\n').map(s=>s.trim()).filter(Boolean);
+  d.tags=(v(`ptags-${id}`)||'').split(',').map(s=>s.trim()).filter(Boolean);
+  d.skillBars=d.skillBars.map((_,i)=>({name:v(`sbn-${id}-${i}`)||'',pct:parseInt(v(`sbp-${id}-${i}`))||0}));
+  d.timeline=d.timeline.map((_,i)=>({yr:v(`tlyr-${id}-${i}`)||'',role:v(`tlro-${id}-${i}`)||'',place:v(`tlpl-${id}-${i}`)||'',desc:v(`tlde-${id}-${i}`)||''}));
+  d.buttons=d.buttons.map((_,i)=>({label:v(`blbl-${id}-${i}`)||'',href:v(`bhrf-${id}-${i}`)||'#',type:v(`btyp-${id}-${i}`)||'primary'}));
+  document.getElementById('ept').textContent='Edit: '+d.title;
+  saveAll();toast('Card updated! ✅');
+}
+
+/* ────────────────────────────────────
+   SAVE / EXPORT / RESET
+──────────────────────────────────── */
+function saveAll(){
+  try{
+    localStorage.setItem('pf_modals',JSON.stringify(MD));
+    const texts={};
+    document.querySelectorAll('[data-e][id]').forEach(el=>texts[el.id]=el.innerHTML);
+    localStorage.setItem('pf_texts',JSON.stringify(texts));
+    const imgs={};
+    Object.keys(IMG_STORE).forEach(k=>{if(IMG_STORE[k])imgs[k]=IMG_STORE[k];});
+    localStorage.setItem('pf_imgs',JSON.stringify(imgs));
+    toast('Changes saved! ✅');
+  }catch(e){toast('Save failed — use Export instead.');}
+}
+
+function confirmReset(){
+  if(confirm('Reset ALL changes to defaults? Cannot be undone.')){
+    localStorage.removeItem('pf_modals');localStorage.removeItem('pf_texts');localStorage.removeItem('pf_imgs');location.reload();
+  }
+}
+
+function exportHTML(){
+  saveAll();
+  const texts={};document.querySelectorAll('[data-e][id]').forEach(el=>texts[el.id]=el.innerHTML);
+  const imgs={...IMG_STORE};
+  const inject=`<script>(function(){window.__PF__={md:${JSON.stringify(MD)},tx:${JSON.stringify(texts)},im:${JSON.stringify(imgs)}};})();<\/script>`;
+  const html=document.documentElement.outerHTML.replace('</head>',inject+'</head>');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([html],{type:'text/html'}));
+  a.download='portfolio.html';a.click();URL.revokeObjectURL(a.href);
+  toast('Exported as portfolio.html 🎉');
+}
+
+/* ────────────────────────────────────
+   BOOTSTRAP FROM EXPORTED DATA
+──────────────────────────────────── */
+function bootstrap(){
+  if(!window.__PF__)return;
+  const{md,tx,im}=window.__PF__;
+  if(md)MD=Object.assign({},MD,md);
+  if(tx)Object.keys(tx).forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=tx[id];});
+  if(im)Object.keys(im).forEach(id=>{IMG_STORE[id]=im[id];applyImg(id,im[id]);});
+}
+
+/* ────────────────────────────────────
+   UTILS
+──────────────────────────────────── */
+function v(id){const el=document.getElementById(id);return el?el.value:'';}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+let toastT;
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2600);}
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>60));
+
+/* INIT */
+bootstrap();
+loadSaved();
+</script>
+</body>
+</html>
